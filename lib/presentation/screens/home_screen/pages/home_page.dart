@@ -1,7 +1,9 @@
-import 'package:blood_donation_system_user/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:sizer/sizer.dart';
+import "package:latlong2/latlong.dart" as latLng;
 
+import '../../../../core/themes/app_colors.dart';
 import '../../../../core/themes/app_text_styles.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  MapController mapController = MapController();
+  List<Marker> markers = [];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,6 +34,49 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(6.w),
               ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 2.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Text(
+                    "Donation Map",
+                    style: AppTextStyles.h2Primary,
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(6.w)),
+                    child: FlutterMap(
+                      // mapController: mapController,
+                      options: MapOptions(
+                        center: latLng.LatLng(6.9271, 79.8612),
+                        zoom: 15.0,
+                      ),
+                      layers: [
+                        TileLayerOptions(
+                          urlTemplate:
+                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          subdomains: ['a', 'b', 'c'],
+                          attributionBuilder: (_) =>
+                              const Text("© OpenStreetMap contributors"),
+                        ),
+                        MarkerLayerOptions(
+                            // markers: markers,
+                            ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
