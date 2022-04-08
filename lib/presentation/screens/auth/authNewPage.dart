@@ -1,3 +1,5 @@
+import 'package:blood_donation_system_user/presentation/screens/auth/widgets/auth_button.dart';
+import 'package:blood_donation_system_user/presentation/screens/auth/widgets/bds_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
@@ -16,6 +18,15 @@ class AuthNewPage extends StatefulWidget {
 class _AuthAuthNewState extends State<AuthNewPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
+  next() {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushNamed(
+        context,
+        AppRouter.authBloodType,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -26,15 +37,36 @@ class _AuthAuthNewState extends State<AuthNewPage> {
       child: Scaffold(
           backgroundColor: AppColors.primaryColor,
           body: ListView(
+            physics: const BouncingScrollPhysics(),
             children: [
-              Center(
-                child: Text(
-                  "Create Account",
-                  style: AppTextStyles.h1Light,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 22.sp,
+                    color: AppColors.lightElv0,
+                  ),
                 ),
               ),
               SizedBox(
-                height: 5.h,
+                height: 3.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 7.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Create Account",
+                      style: AppTextStyles.h1Light,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 4.h,
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 2.w),
@@ -118,6 +150,12 @@ class _AuthAuthNewState extends State<AuthNewPage> {
                         SizedBox(
                           height: 3.h,
                         ),
+                        BdsDatePicker(
+                          onDateSelected: (dateTime) => print(dateTime),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
                         TextFormField(
                           controller: passwordController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -175,32 +213,13 @@ class _AuthAuthNewState extends State<AuthNewPage> {
                 height: 3.h,
               ),
               Center(
-                child: TextButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2.w),
-                      ),
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(AppColors.lightElv0),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 1.2.h)),
-                  ),
-                  child: Text(
-                    'Next',
-                    style: AppTextStyles.h2Primary,
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(
-                        context,
-                        AppRouter.authBloodType,
-                      );
-                    }
-                  },
+                child: AuthButton(
+                  text: "Next",
+                  onTap: () => next(),
                 ),
+              ),
+              SizedBox(
+                height: 3.h,
               ),
             ],
           )),

@@ -22,7 +22,7 @@ class _LandingPageState extends State<LandingPage> {
           context, AppRouter.authNicPage, (route) => false));
   @override
   Widget build(BuildContext context) {
-    goToHome();
+    goToAuth();
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Center(

@@ -1,3 +1,4 @@
+import 'package:blood_donation_system_user/presentation/screens/auth/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,6 +25,23 @@ class _AuthBloodTypeState extends State<AuthBloodType> {
     "AB+"
   ];
   String bloodType = "";
+
+  finish() {
+    if (bloodType != "") {
+      Navigator.pushNamed(
+        context,
+        AppRouter.homeScreen,
+      );
+    }
+    if (bloodType.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select your blood type!"),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,37 +124,9 @@ class _AuthBloodTypeState extends State<AuthBloodType> {
               height: 4.h,
             ),
             Center(
-              child: TextButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2.w),
-                    ),
-                  ),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(AppColors.lightElv0),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 1.2.h)),
-                ),
-                child: Text(
-                  'Finish',
-                  style: AppTextStyles.h2Primary,
-                ),
-                onPressed: () {
-                  if (bloodType != "") {
-                    Navigator.pushNamed(
-                      context,
-                      AppRouter.homeScreen,
-                    );
-                    if (bloodType == "") {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Please select your blood type!"),
-                        ),
-                      );
-                    }
-                  }
-                },
+              child: AuthButton(
+                text: "Finish",
+                onTap: () => finish(),
               ),
             ),
           ],
