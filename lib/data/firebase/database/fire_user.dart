@@ -33,4 +33,13 @@ class FireUser {
       throw e.toString();
     }
   }
+
+  static Future<void> changeUserEmail(
+      {required String nic, required BdsUser email}) async {
+    try {
+      await userRef.doc(nic).update({"email": email});
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

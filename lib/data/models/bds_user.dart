@@ -3,7 +3,6 @@ import 'dart:convert';
 class BdsUser {
   final String nic;
   final String uid;
-  final String type;
   final String email;
   final String name;
   final String address;
@@ -12,10 +11,11 @@ class BdsUser {
   final bool status;
   final String mobile;
   final String gender;
+  final int lastTestedDate;
+  final String donationAbility;
   BdsUser({
     required this.nic,
     required this.uid,
-    required this.type,
     required this.email,
     required this.name,
     required this.address,
@@ -24,12 +24,13 @@ class BdsUser {
     required this.status,
     required this.mobile,
     required this.gender,
+    required this.lastTestedDate,
+    required this.donationAbility,
   });
 
   BdsUser copyWith({
     String? nic,
     String? uid,
-    String? type,
     String? email,
     String? name,
     String? address,
@@ -38,11 +39,12 @@ class BdsUser {
     bool? status,
     String? mobile,
     String? gender,
+    int? lastTestedDate,
+    String? donationAbility,
   }) {
     return BdsUser(
       nic: nic ?? this.nic,
       uid: uid ?? this.uid,
-      type: type ?? this.type,
       email: email ?? this.email,
       name: name ?? this.name,
       address: address ?? this.address,
@@ -51,6 +53,8 @@ class BdsUser {
       status: status ?? this.status,
       mobile: mobile ?? this.mobile,
       gender: gender ?? this.gender,
+      lastTestedDate: lastTestedDate ?? this.lastTestedDate,
+      donationAbility: donationAbility ?? this.donationAbility,
     );
   }
 
@@ -58,7 +62,6 @@ class BdsUser {
     return {
       'nic': nic,
       'uid': uid,
-      'type': type,
       'email': email,
       'name': name,
       'address': address,
@@ -67,6 +70,8 @@ class BdsUser {
       'status': status,
       'mobile': mobile,
       'gender': gender,
+      'lastTestedDate': lastTestedDate,
+      'donationAbility': donationAbility,
     };
   }
 
@@ -74,7 +79,6 @@ class BdsUser {
     return BdsUser(
       nic: map['nic'] ?? '',
       uid: map['uid'] ?? '',
-      type: map['type'] ?? '',
       email: map['email'] ?? '',
       name: map['name'] ?? '',
       address: map['address'] ?? '',
@@ -83,6 +87,8 @@ class BdsUser {
       status: map['status'] ?? false,
       mobile: map['mobile'] ?? '',
       gender: map['gender'] ?? '',
+      lastTestedDate: map['lastTestedDate']?.toInt() ?? 0,
+      donationAbility: map['donationAbility'] ?? '',
     );
   }
 
@@ -93,7 +99,7 @@ class BdsUser {
 
   @override
   String toString() {
-    return 'BdsUser(nic: $nic, uid: $uid, type: $type, email: $email, name: $name, address: $address, bloodGroup: $bloodGroup, dob: $dob, status: $status, mobile: $mobile, gender: $gender)';
+    return 'BdsUser(nic: $nic, uid: $uid, email: $email, name: $name, address: $address, bloodGroup: $bloodGroup, dob: $dob, status: $status, mobile: $mobile, gender: $gender, lastTestedDate: $lastTestedDate, donationAbility: $donationAbility)';
   }
 
   @override
@@ -103,7 +109,6 @@ class BdsUser {
     return other is BdsUser &&
         other.nic == nic &&
         other.uid == uid &&
-        other.type == type &&
         other.email == email &&
         other.name == name &&
         other.address == address &&
@@ -111,14 +116,15 @@ class BdsUser {
         other.dob == dob &&
         other.status == status &&
         other.mobile == mobile &&
-        other.gender == gender;
+        other.gender == gender &&
+        other.lastTestedDate == lastTestedDate &&
+        other.donationAbility == donationAbility;
   }
 
   @override
   int get hashCode {
     return nic.hashCode ^
         uid.hashCode ^
-        type.hashCode ^
         email.hashCode ^
         name.hashCode ^
         address.hashCode ^
@@ -126,6 +132,8 @@ class BdsUser {
         dob.hashCode ^
         status.hashCode ^
         mobile.hashCode ^
-        gender.hashCode;
+        gender.hashCode ^
+        lastTestedDate.hashCode ^
+        donationAbility.hashCode;
   }
 }
