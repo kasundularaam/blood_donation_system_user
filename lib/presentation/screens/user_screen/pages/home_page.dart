@@ -1,10 +1,11 @@
+import "package:latlong2/latlong.dart" as lat_ng;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sizer/sizer.dart';
-import "package:latlong2/latlong.dart" as latLng;
 
-import '../../../../core/themes/app_colors.dart';
-import '../../../../core/themes/app_text_styles.dart';
+import '../../../../../core/components/components.dart';
+import '../../../../../core/themes/app_colors.dart';
+import '../../../../../core/themes/app_text_styles.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,12 +43,8 @@ class _HomePageState extends State<HomePage> {
                   height: 2.h,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: Text(
-                    "Donation Map",
-                    style: AppTextStyles.h2Primary,
-                  ),
-                ),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    child: textD("Donation Map", 14, bold: true)),
                 SizedBox(
                   height: 2.h,
                 ),
@@ -58,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                     child: FlutterMap(
                       // mapController: mapController,
                       options: MapOptions(
-                        center: latLng.LatLng(6.9271, 79.8612),
+                        center: lat_ng.LatLng(6.9271, 79.8612),
                         zoom: 15.0,
                       ),
                       layers: [

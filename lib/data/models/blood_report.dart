@@ -1,25 +1,25 @@
 import 'dart:convert';
 
 class BloodReport {
-  final String bloodPacId;
+  final String bloodPackId;
   final String labId;
   final int timeStamp;
   final String donationAbility;
   BloodReport({
-    required this.bloodPacId,
+    required this.bloodPackId,
     required this.labId,
     required this.timeStamp,
     required this.donationAbility,
   });
 
   BloodReport copyWith({
-    String? bloodPacId,
+    String? bloodPackId,
     String? labId,
     int? timeStamp,
     String? donationAbility,
   }) {
     return BloodReport(
-      bloodPacId: bloodPacId ?? this.bloodPacId,
+      bloodPackId: bloodPackId ?? this.bloodPackId,
       labId: labId ?? this.labId,
       timeStamp: timeStamp ?? this.timeStamp,
       donationAbility: donationAbility ?? this.donationAbility,
@@ -28,7 +28,7 @@ class BloodReport {
 
   Map<String, dynamic> toMap() {
     return {
-      'bloodPacId': bloodPacId,
+      'bloodPackId': bloodPackId,
       'labId': labId,
       'timeStamp': timeStamp,
       'donationAbility': donationAbility,
@@ -37,7 +37,7 @@ class BloodReport {
 
   factory BloodReport.fromMap(Map<String, dynamic> map) {
     return BloodReport(
-      bloodPacId: map['bloodPacId'] ?? '',
+      bloodPackId: map['bloodPackId'] ?? '',
       labId: map['labId'] ?? '',
       timeStamp: map['timeStamp']?.toInt() ?? 0,
       donationAbility: map['donationAbility'] ?? '',
@@ -51,7 +51,7 @@ class BloodReport {
 
   @override
   String toString() {
-    return 'BloodReport(bloodPacId: $bloodPacId, labId: $labId, timeStamp: $timeStamp, donationAbility: $donationAbility)';
+    return 'BloodReport(bloodPackId: $bloodPackId, labId: $labId, timeStamp: $timeStamp, donationAbility: $donationAbility)';
   }
 
   @override
@@ -59,7 +59,7 @@ class BloodReport {
     if (identical(this, other)) return true;
 
     return other is BloodReport &&
-        other.bloodPacId == bloodPacId &&
+        other.bloodPackId == bloodPackId &&
         other.labId == labId &&
         other.timeStamp == timeStamp &&
         other.donationAbility == donationAbility;
@@ -67,7 +67,7 @@ class BloodReport {
 
   @override
   int get hashCode {
-    return bloodPacId.hashCode ^
+    return bloodPackId.hashCode ^
         labId.hashCode ^
         timeStamp.hashCode ^
         donationAbility.hashCode;

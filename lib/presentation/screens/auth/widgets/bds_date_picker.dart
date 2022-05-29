@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:blood_donation_system_user/core/themes/app_colors.dart';
-import 'package:blood_donation_system_user/core/themes/app_text_styles.dart';
+import '../../../../core/themes/app_colors.dart';
+import '../../../../core/themes/app_text_styles.dart';
 
 class BdsDatePicker extends StatefulWidget {
   final Function(int) onDateSelected;

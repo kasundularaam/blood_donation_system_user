@@ -1,19 +1,53 @@
-import 'package:blood_donation_system_user/data/models/bdf_question.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FireBdfQuestions {
-  static CollectionReference questionRef =
-      FirebaseFirestore.instance.collection("bloodDonationForm");
+import '../../models/bdf_question.dart';
+import '../../models/bdf_field.dart';
 
-  static Future<List<BdfQuestion>> getFormQuestions(
-      {required String bloodPacId}) async {
+class FireBdfQuestions {
+  static CollectionReference formFieldRef =
+      FirebaseFirestore.instance.collection("formField");
+
+  static CollectionReference donationFormRef =
+      FirebaseFirestore.instance.collection("donationForm");
+
+  static Future<List<BDFField>> getFormFields() async {
     try {
-      List<BdfQuestion> questions = await questionRef
-          .doc(bloodPacId)
+      List<BDFField> formFields = await formFieldRef.get().then((snapShot) =>
+          snapShot.docs
+              .map(
+                  (doc) => BDFField.fromMap(doc.data() as Map<String, dynamic>))
+              .toList());
+      return formFields;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  static Future addDonationForm(
+      {required List<BdfQuestion> bdfQuestions,
+      required String bloodPackId}) async {
+    try {
+      for (BdfQuestion bdfQuestion in bdfQuestions) {
+        await donationFormRef
+            .doc(bloodPackId)
+            .collection("questions")
+            .doc(bdfQuestion.id)
+            .set(bdfQuestion.toMap());
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  static Future<List<BdfQuestion>> getBDFQuestions(
+      {required String bloodPackId}) async {
+    try {
+      List<BdfQuestion> questions = await donationFormRef
+          .doc(bloodPackId)
           .collection("questions")
           .get()
           .then((snapShot) => snapShot.docs
-              .map((doc) => BdfQuestion.fromMap(doc as Map<String, dynamic>))
+              .map((doc) => BdfQuestion.fromMap(doc.data()))
               .toList());
       return questions;
     } catch (e) {

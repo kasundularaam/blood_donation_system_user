@@ -1,12 +1,12 @@
-import 'package:blood_donation_system_user/core/constants/strings.dart';
-import 'package:blood_donation_system_user/presentation/router/app_router.dart';
-import 'package:blood_donation_system_user/presentation/screens/auth/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/components/components.dart';
+import '../../../core/constants/strings.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_styles.dart';
+import '../../router/app_router.dart';
 
 class AuthNicPage extends StatefulWidget {
   const AuthNicPage({Key? key}) : super(key: key);
@@ -16,7 +16,6 @@ class AuthNicPage extends StatefulWidget {
 }
 
 class _AuthNicPageState extends State<AuthNicPage> {
-  final _formKey = GlobalKey<FormState>();
   TextEditingController nicController = TextEditingController();
   String? get validationErrors {
     if (nicController.text.isEmpty) {
@@ -42,14 +41,14 @@ class _AuthNicPageState extends State<AuthNicPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.primaryColor,
-        statusBarIconBrightness: Brightness.light,
+        statusBarColor: AppColors.lightElv0,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.lightElv0,
         body: SafeArea(
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 3.w),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
             children: [
               SizedBox(
                 height: 10.h,
@@ -61,38 +60,23 @@ class _AuthNicPageState extends State<AuthNicPage> {
                 ),
               ),
               Image.asset(
-                Strings.landingPageImg,
-                height: 25.h,
+                Strings.landingImg,
                 fit: BoxFit.fitHeight,
               ),
               SizedBox(
                 height: 20.h,
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2.w),
-                child: TextFormField(
-                  controller: nicController,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.go,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColors.lightElv0.withOpacity(0.7),
-                    border: InputBorder.none,
-                    prefixIcon: const Icon(
-                      Icons.card_membership_rounded,
-                    ),
-                    hintText: 'Ex: 192867543V',
-                    labelText: 'NIC',
-                  ),
-                ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: inputText(nicController, label: "NIC"),
               ),
               SizedBox(
                 height: 3.h,
               ),
               Center(
-                child: AuthButton(
-                  onTap: () => next(),
-                  text: "Next",
+                child: buttonFilledP(
+                  "Next",
+                  () => next(),
                 ),
               ),
             ],

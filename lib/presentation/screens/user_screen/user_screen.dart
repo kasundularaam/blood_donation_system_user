@@ -1,21 +1,23 @@
-import 'package:blood_donation_system_user/core/constants/strings.dart';
-import 'package:blood_donation_system_user/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/themes/app_colors.dart';
+import '../../../logic/donations_cubit/donations_cubit.dart';
+import '../../../logic/profile_page_cubit/profile_page_cubit.dart';
+import '../../../logic/sign_out_cubit/sign_out_cubit.dart';
 import 'pages/donations_page.dart';
 import 'pages/home_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/request_page.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class UserScreen extends StatefulWidget {
+  const UserScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<UserScreen> createState() => _UserScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _UserScreenState extends State<UserScreen> {
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -23,11 +25,24 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  static const List<Widget> _widgetOptions = [
-    HomePage(),
-    DonationsPage(),
-    RequestPage(),
-    ProfilePage(),
+  static final List<Widget> _widgetOptions = [
+    const HomePage(),
+    BlocProvider(
+      create: (context) => DonationsCubit(),
+      child: const DonationsPage(),
+    ),
+    const RequestPage(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SignOutCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ProfilePageCubit(),
+        ),
+      ],
+      child: const ProfilePage(),
+    ),
   ];
 
   @override
@@ -43,24 +58,32 @@ class _HomeScreenState extends State<HomeScreen> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Image.asset(Strings.homeIcon),
+              icon: Icon(
+                Icons.home_rounded,
+              ),
               label: "Home",
               backgroundColor: AppColors.primaryColor,
             ),
             BottomNavigationBarItem(
-              icon: Image.asset(Strings.donationsIcon),
+              icon: Icon(
+                Icons.water_drop_rounded,
+              ),
               label: "Donations",
               backgroundColor: AppColors.primaryColor,
             ),
             BottomNavigationBarItem(
-              icon: Image.asset(Strings.requestIcon),
+              icon: Icon(
+                Icons.airline_seat_flat_rounded,
+              ),
               label: "Request",
               backgroundColor: AppColors.primaryColor,
             ),
             BottomNavigationBarItem(
-              icon: Image.asset(Strings.profileIcon),
+              icon: Icon(
+                Icons.person_rounded,
+              ),
               label: "Profile",
               backgroundColor: AppColors.primaryColor,
             ),

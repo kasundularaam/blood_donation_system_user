@@ -7,7 +7,6 @@ class BloodTest {
   final String min;
   final String max;
   final String result;
-  final String status;
   BloodTest({
     required this.testId,
     required this.test,
@@ -15,7 +14,6 @@ class BloodTest {
     required this.min,
     required this.max,
     required this.result,
-    required this.status,
   });
 
   BloodTest copyWith({
@@ -25,7 +23,6 @@ class BloodTest {
     String? min,
     String? max,
     String? result,
-    String? status,
   }) {
     return BloodTest(
       testId: testId ?? this.testId,
@@ -34,7 +31,6 @@ class BloodTest {
       min: min ?? this.min,
       max: max ?? this.max,
       result: result ?? this.result,
-      status: status ?? this.status,
     );
   }
 
@@ -46,7 +42,6 @@ class BloodTest {
       'min': min,
       'max': max,
       'result': result,
-      'status': status,
     };
   }
 
@@ -58,7 +53,6 @@ class BloodTest {
       min: map['min'] ?? '',
       max: map['max'] ?? '',
       result: map['result'] ?? '',
-      status: map['status'] ?? '',
     );
   }
 
@@ -69,7 +63,7 @@ class BloodTest {
 
   @override
   String toString() {
-    return 'BloodTest(testId: $testId, test: $test, unit: $unit, min: $min, max: $max, result: $result, status: $status)';
+    return 'BloodTest(testId: $testId, test: $test, unit: $unit, min: $min, max: $max, result: $result)';
   }
 
   @override
@@ -82,8 +76,7 @@ class BloodTest {
         other.unit == unit &&
         other.min == min &&
         other.max == max &&
-        other.result == result &&
-        other.status == status;
+        other.result == result;
   }
 
   @override
@@ -93,7 +86,6 @@ class BloodTest {
         unit.hashCode ^
         min.hashCode ^
         max.hashCode ^
-        result.hashCode ^
-        status.hashCode;
+        result.hashCode;
   }
 }

@@ -24,9 +24,9 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     goToAuth();
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.lightElv0,
       body: Center(
-        child: Image.asset(Strings.landingPageImg),
+        child: Image.asset(Strings.landingImg),
       ),
     );
   }

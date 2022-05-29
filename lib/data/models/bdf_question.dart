@@ -1,39 +1,39 @@
 import 'dart:convert';
 
 class BdfQuestion {
-  final String questionId;
-  final String questionType;
+  final String id;
+  final String question;
   final String answer;
   BdfQuestion({
-    required this.questionId,
-    required this.questionType,
+    required this.id,
+    required this.question,
     required this.answer,
   });
 
   BdfQuestion copyWith({
-    String? questionId,
-    String? questionType,
+    String? id,
+    String? question,
     String? answer,
   }) {
     return BdfQuestion(
-      questionId: questionId ?? this.questionId,
-      questionType: questionType ?? this.questionType,
+      id: id ?? this.id,
+      question: question ?? this.question,
       answer: answer ?? this.answer,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'questionId': questionId,
-      'questionType': questionType,
+      'id': id,
+      'question': question,
       'answer': answer,
     };
   }
 
   factory BdfQuestion.fromMap(Map<String, dynamic> map) {
     return BdfQuestion(
-      questionId: map['questionId'] ?? '',
-      questionType: map['questionType'] ?? '',
+      id: map['id'] ?? '',
+      question: map['question'] ?? '',
       answer: map['answer'] ?? '',
     );
   }
@@ -45,19 +45,18 @@ class BdfQuestion {
 
   @override
   String toString() =>
-      'BdfQuestion(questionId: $questionId, questionType: $questionType, answer: $answer)';
+      'BdfQuestion(id: $id, question: $question, answer: $answer)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is BdfQuestion &&
-        other.questionId == questionId &&
-        other.questionType == questionType &&
+        other.id == id &&
+        other.question == question &&
         other.answer == answer;
   }
 
   @override
-  int get hashCode =>
-      questionId.hashCode ^ questionType.hashCode ^ answer.hashCode;
+  int get hashCode => id.hashCode ^ question.hashCode ^ answer.hashCode;
 }

@@ -1,5 +1,6 @@
-import 'package:blood_donation_system_user/data/models/bds_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../models/bds_user.dart';
 
 class FireUser {
   static CollectionReference userRef =
@@ -13,16 +14,16 @@ class FireUser {
     }
   }
 
-  static Future<bool> userDocExist({required String nic}) async {
+  static Future<bool> userExist({required String nic}) async {
     try {
-      bool exist = await userRef.doc(nic).get().then((doc) => doc.exists);
-      return exist;
+      DocumentSnapshot snapshot = await userRef.doc(nic).get();
+      return snapshot.exists;
     } catch (e) {
       throw e.toString();
     }
   }
 
-  static Future<BdsUser> getUser({required String nic}) async {
+  static Future<BdsUser> getUserByNic({required String nic}) async {
     try {
       BdsUser bdsUser = await userRef.doc(nic).get().then((doc) {
         Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
@@ -34,10 +35,21 @@ class FireUser {
     }
   }
 
-  static Future<void> changeUserEmail(
-      {required String nic, required BdsUser email}) async {
+  static Future<BdsUser> getUserByUid({required String uid}) async {
     try {
-      await userRef.doc(nic).update({"email": email});
+      QuerySnapshot snapshot = await userRef.where("uid", isEqualTo: uid).get();
+      Map<String, dynamic> map =
+          snapshot.docs.first.data() as Map<String, dynamic>;
+      return BdsUser.fromMap(map);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  static Future setDonationAbility(
+      {required String nic, required String donationAbility}) async {
+    try {
+      await userRef.doc(nic).update({"donationAbility": donationAbility});
     } catch (e) {
       throw e.toString();
     }
