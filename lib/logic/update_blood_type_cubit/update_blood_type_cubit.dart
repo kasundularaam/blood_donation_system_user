@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:blood_donation_system_user/data/firebase/database/fire_user.dart';
-import 'package:blood_donation_system_user/data/models/bds_user.dart';
-import 'package:blood_donation_system_user/data/shared/shared_service.dart';
 import 'package:meta/meta.dart';
+
+import '../../data/firebase/database/fire_user.dart';
+import '../../data/models/bds_user.dart';
+import '../../data/shared/shared_service.dart';
 
 part 'update_blood_type_state.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/exceptions/route_exception.dart';
 import '../../data/models/bds_donation.dart';
 import '../../data/models/bds_user.dart';
 import '../../logic/auth_nic_cubit/auth_nic_cubit.dart';
@@ -20,7 +21,6 @@ import '../screens/donation_screen/donation_page.dart';
 import '../screens/landing_screen/landing_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/exceptions/route_exception.dart';
 import '../screens/user_screen/user_screen.dart';
 
 class AppRouter {

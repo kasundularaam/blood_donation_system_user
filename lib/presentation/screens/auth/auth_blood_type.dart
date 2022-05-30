@@ -1,4 +1,3 @@
-import 'package:blood_donation_system_user/logic/update_blood_type_cubit/update_blood_type_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -7,6 +6,7 @@ import '../../../core/components/components.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_styles.dart';
 import '../../../data/models/bds_user.dart';
+import '../../../logic/update_blood_type_cubit/update_blood_type_cubit.dart';
 import '../../router/app_router.dart';
 
 class AuthBloodType extends StatefulWidget {
