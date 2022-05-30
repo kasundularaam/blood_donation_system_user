@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:blood_donation_system_user/data/firebase/database/fire_campaign.dart';
-import 'package:blood_donation_system_user/data/models/bds_campaign.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import "package:latlong2/latlong.dart" as latLng;
 
+import '../../data/firebase/database/fire_campaign.dart';
+import '../../data/models/bds_campaign.dart';
 import '../../presentation/screens/user_screen/widgets/marker_view.dart';
 
 part 'donation_map_state.dart';
