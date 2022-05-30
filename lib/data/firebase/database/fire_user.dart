@@ -6,7 +6,7 @@ class FireUser {
   static CollectionReference userRef =
       FirebaseFirestore.instance.collection("user");
 
-  static Future<void> addUser({required BdsUser bdsUser}) async {
+  static Future addUser({required BdsUser bdsUser}) async {
     try {
       await userRef.doc(bdsUser.nic).set(bdsUser.toMap());
     } catch (e) {
@@ -50,6 +50,23 @@ class FireUser {
       {required String nic, required String donationAbility}) async {
     try {
       await userRef.doc(nic).update({"donationAbility": donationAbility});
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  static Future updateStatus({required String nic}) async {
+    try {
+      await userRef.doc(nic).update({"status": true});
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  static Future updateBloodGroup(
+      {required String bloodGroup, required String nic}) async {
+    try {
+      await userRef.doc(nic).update({"bloodGroup": bloodGroup});
     } catch (e) {
       throw e.toString();
     }

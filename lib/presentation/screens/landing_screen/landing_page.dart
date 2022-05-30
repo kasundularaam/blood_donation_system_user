@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/components/components.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/themes/app_colors.dart';
+import '../../../logic/landing_cubit/landing_cubit.dart';
 import '../../router/app_router.dart';
 
 class LandingPage extends StatefulWidget {
@@ -12,21 +15,26 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  static const Duration duration = Duration(seconds: 2);
-
-  void goToHome() => Future.delayed(duration).then((value) =>
-      Navigator.pushNamedAndRemoveUntil(
-          context, AppRouter.homeScreen, (route) => false));
-  void goToAuth() => Future.delayed(duration).then((value) =>
-      Navigator.pushNamedAndRemoveUntil(
-          context, AppRouter.authNicPage, (route) => false));
   @override
   Widget build(BuildContext context) {
-    goToAuth();
-    return Scaffold(
-      backgroundColor: AppColors.lightElv0,
-      body: Center(
-        child: Image.asset(Strings.landingImg),
+    BlocProvider.of<LandingCubit>(context).loadApp();
+    return BlocListener<LandingCubit, LandingState>(
+      listener: (context, state) {
+        if (state is LandingFailed) {
+          showSnackBar(context, state.errorMsg);
+        }
+        if (state is LandingToAuth) {
+          navAndClear(context, AppRouter.authNicPage);
+        }
+        if (state is LandingToHome) {
+          navAndClear(context, AppRouter.homeScreen);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.lightElv0,
+        body: Center(
+          child: Image.asset(Strings.landingImg),
+        ),
       ),
     );
   }

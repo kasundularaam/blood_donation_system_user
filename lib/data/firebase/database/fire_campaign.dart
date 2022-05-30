@@ -7,6 +7,25 @@ class FireCampaign {
   static CollectionReference campaignRef =
       FirebaseFirestore.instance.collection("campaign");
 
+  static Future<List<BDSCampaign>> getCampaigns() async {
+    try {
+      QuerySnapshot snapshot = await campaignRef.get();
+      List<BDSCampaign> campaigns = snapshot.docs.map((doc) {
+        Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
+        return BDSCampaign.fromMap(map);
+      }).toList();
+      List<BDSCampaign> list = [];
+      for (BDSCampaign campaign in campaigns) {
+        if (isCampaignMoreThanNow(campaign)) {
+          list.add(campaign);
+        }
+      }
+      return list;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   static Future<List<BDSCampaign>> getTodayCampaign(
       {required String nic}) async {
     try {

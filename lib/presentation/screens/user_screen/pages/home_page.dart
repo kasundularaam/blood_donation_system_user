@@ -1,4 +1,5 @@
-import "package:latlong2/latlong.dart" as lat_ng;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:latlong2/latlong.dart" as latLng;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sizer/sizer.dart';
@@ -6,6 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../../core/components/components.dart';
 import '../../../../../core/themes/app_colors.dart';
 import '../../../../../core/themes/app_text_styles.dart';
+import '../../../../logic/donation_map_cubit/donation_map_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   List<Marker> markers = [];
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DonationMapCubit>(context).loadCampaigns();
     return Column(
       children: [
         Padding(
@@ -52,24 +55,36 @@ class _HomePageState extends State<HomePage> {
                   child: ClipRRect(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(6.w)),
-                    child: FlutterMap(
-                      // mapController: mapController,
-                      options: MapOptions(
-                        center: lat_ng.LatLng(6.9271, 79.8612),
-                        zoom: 15.0,
-                      ),
-                      layers: [
-                        TileLayerOptions(
-                          urlTemplate:
-                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                          subdomains: ['a', 'b', 'c'],
-                          attributionBuilder: (_) =>
-                              const Text("© OpenStreetMap contributors"),
+                    child: BlocListener<DonationMapCubit, DonationMapState>(
+                      listener: (context, state) {
+                        if (state is DonationMapFailed) {
+                          showSnackBar(context, state.errorMsg);
+                        }
+                        if (state is DonationMapLoaded) {
+                          setState(() {
+                            markers = state.markers;
+                          });
+                        }
+                      },
+                      child: FlutterMap(
+                        mapController: mapController,
+                        options: MapOptions(
+                          center: latLng.LatLng(6.9271, 79.8612),
+                          zoom: 15.0,
                         ),
-                        MarkerLayerOptions(
-                            // markers: markers,
-                            ),
-                      ],
+                        layers: [
+                          TileLayerOptions(
+                            urlTemplate:
+                                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                            subdomains: ['a', 'b', 'c'],
+                            attributionBuilder: (_) =>
+                                const Text("© OpenStreetMap contributors"),
+                          ),
+                          MarkerLayerOptions(
+                            markers: markers,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

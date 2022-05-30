@@ -1,3 +1,4 @@
+import 'package:blood_donation_system_user/logic/donation_map_cubit/donation_map_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,10 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   static final List<Widget> _widgetOptions = [
-    const HomePage(),
+    BlocProvider(
+      create: (context) => DonationMapCubit(),
+      child: const HomePage(),
+    ),
     BlocProvider(
       create: (context) => DonationsCubit(),
       child: const DonationsPage(),

@@ -33,6 +33,19 @@ bool isCampaignMoreThanTomorrow(BDSCampaign campaign) {
   return isMoreThanTomorrow;
 }
 
+bool isCampaignMoreThanNow(BDSCampaign campaign) {
+  final DateTime campaignDate =
+      DateTime.fromMillisecondsSinceEpoch(campaign.date);
+  final int campaignHour = int.parse(campaign.start.split(":")[0]);
+  final int campaignMinute = int.parse(campaign.start.split(":")[1]);
+  final DateTime campaignDateTime = DateTime(campaignDate.year,
+      campaignDate.month, campaignDate.day, campaignHour, campaignMinute);
+  bool isMoreThanTomorrow = campaignDateTime.millisecondsSinceEpoch -
+          DateTime.now().millisecondsSinceEpoch >
+      0;
+  return isMoreThanTomorrow;
+}
+
 bool isCampaignToday(BDSCampaign campaign) {
   final DateTime campaignDate =
       DateTime.fromMillisecondsSinceEpoch(campaign.date);

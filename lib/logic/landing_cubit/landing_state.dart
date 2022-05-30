@@ -9,9 +9,9 @@ class LandingLoading extends LandingState {}
 
 class LandingToAuth extends LandingState {}
 
-class LandingToHospital extends LandingState {
-  final User user;
-  LandingToHospital({
+class LandingToHome extends LandingState {
+  final BdsUser user;
+  LandingToHome({
     required this.user,
   });
 
@@ -19,54 +19,14 @@ class LandingToHospital extends LandingState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is LandingToHospital && other.user == user;
+    return other is LandingToHome && other.user == user;
   }
 
   @override
   int get hashCode => user.hashCode;
 
   @override
-  String toString() => 'LandingToHospital(user: $user)';
-}
-
-class LandingToBloodBank extends LandingState {
-  final User user;
-  LandingToBloodBank({
-    required this.user,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is LandingToBloodBank && other.user == user;
-  }
-
-  @override
-  int get hashCode => user.hashCode;
-
-  @override
-  String toString() => 'LandingToBloodBank(user: $user)';
-}
-
-class LandingToLab extends LandingState {
-  final User user;
-  LandingToLab({
-    required this.user,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is LandingToLab && other.user == user;
-  }
-
-  @override
-  int get hashCode => user.hashCode;
-
-  @override
-  String toString() => 'LandingToLab(user: $user)';
+  String toString() => 'LandingToHome(user: $user)';
 }
 
 class LandingFailed extends LandingState {

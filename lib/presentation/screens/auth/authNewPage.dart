@@ -1,36 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/components/components.dart';
 import '../../../core/themes/app_colors.dart';
+import '../../../data/models/bds_user.dart';
+import '../../../logic/create_account_cubit/create_account_cubit.dart';
 import '../../router/app_router.dart';
 import 'widgets/bds_date_picker.dart';
+import 'widgets/gender_selector.dart';
 
 class AuthNewPage extends StatefulWidget {
-  const AuthNewPage({Key? key}) : super(key: key);
+  final String nic;
+  const AuthNewPage({
+    Key? key,
+    required this.nic,
+  }) : super(key: key);
 
   @override
   State<AuthNewPage> createState() => _AuthAuthNewState();
 }
 
 class _AuthAuthNewState extends State<AuthNewPage> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController passwordController = TextEditingController();
+  String get nic => widget.nic;
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController addressCtrl = TextEditingController();
+  TextEditingController mobileCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+  int dob = 0;
+  String gender = "";
+
   next() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(
-        context,
-        AppRouter.authBloodType,
-      );
-    }
+    final BdsUser user = BdsUser(
+        nic: nic,
+        uid: "",
+        type: "user",
+        email: emailCtrl.text,
+        img: "",
+        name: nameCtrl.text,
+        address: addressCtrl.text,
+        bloodGroup: "",
+        dob: dob,
+        hospital: "",
+        status: true,
+        mobile: mobileCtrl.text,
+        gender: "",
+        lastTestedDate: 0,
+        donationAbility: "");
+    BlocProvider.of<CreateAccountCubit>(context)
+        .createAccount(user: user, password: passwordCtrl.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.lightElv0,
+        statusBarColor: AppColors.lightElv1,
         statusBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
@@ -40,164 +67,77 @@ class _AuthAuthNewState extends State<AuthNewPage> {
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             physics: const BouncingScrollPhysics(),
             children: [
-              vSpacer(2),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 22.sp,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-              ),
-              vSpacer(2),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textP("Create Account", 22, bold: true),
-                  ],
-                ),
-              ),
+              vSpacer(5),
+              textP("Create new account", 18, bold: true),
               vSpacer(2),
               Card(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(2.w),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.person_rounded,
-                          ),
-                          hintText: 'Ex: Martin Garrix',
-                          labelText: 'Name',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Name is empty!';
-                          }
-                          return null;
-                        },
-                      ),
-                      vSpacer(2),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(2.w),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.location_pin,
-                          ),
-                          hintText: 'Ex: 346 Zappia Drive, Lexington, Kentucky',
-                          labelText: 'Address',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Address is empty!';
-                          }
-                          return null;
-                        },
-                      ),
-                      vSpacer(2),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(2.w),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.email_rounded,
-                          ),
-                          hintText: 'Ex: martingarrix@bds.com',
-                          labelText: 'Email',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Email is empty!';
-                          }
-                          if (!RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value)) {
-                            return 'Invalid Email address!';
-                          }
-                          return null;
-                        },
-                      ),
-                      vSpacer(2),
-                      BdsDatePicker(
-                        onDateSelected: (dateTime) => print(dateTime),
-                      ),
-                      vSpacer(2),
-                      TextFormField(
-                        controller: passwordController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(2.w),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.password_rounded,
-                          ),
-                          hintText: '* * * * * *',
-                          labelText: 'Password',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Password is empty!';
-                          }
-                          if (value.length < 6) {
-                            return 'Password must be at least 6 characters!';
-                          }
-                          return null;
-                        },
-                      ),
-                      vSpacer(2),
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(2.w),
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.password_rounded,
-                          ),
-                          hintText: '* * * * * *',
-                          labelText: 'Confirm password',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Confirm password is empty!';
-                          }
-                          if (passwordController.text != value) {
-                            return 'Passwords does not match!';
-                          }
-                          return null;
-                        },
-                      ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                  child: Row(
+                    children: [
+                      textD("NIC", 14, bold: true),
+                      hSpacer(3),
+                      textD(nic, 14),
                     ],
                   ),
                 ),
               ),
-              vSpacer(3),
-              Center(
-                child: buttonFilledP(
-                  "Next",
-                  () => next(),
+              Card(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      textD("Name", 14),
+                      vSpacer(1),
+                      inputName(nameCtrl),
+                      vSpacer(3),
+                      textD("Address", 14),
+                      vSpacer(1),
+                      inputText(addressCtrl),
+                      vSpacer(3),
+                      textD("Email", 14),
+                      vSpacer(1),
+                      inputEmail(emailCtrl),
+                      vSpacer(3),
+                      textD("Phone", 14),
+                      vSpacer(1),
+                      inputPhone(mobileCtrl),
+                      vSpacer(3),
+                      textD("Date of birth", 14),
+                      vSpacer(1),
+                      BdsDatePicker(onDateSelected: (date) => dob = date),
+                      vSpacer(3),
+                      textD("Gender", 14),
+                      vSpacer(1),
+                      GenderSelector(onSelect: (value) => gender = value),
+                      vSpacer(3),
+                      textD("Password", 14),
+                      vSpacer(1),
+                      inputPassword(passwordCtrl),
+                    ],
+                  ),
                 ),
               ),
-              vSpacer(3)
+              vSpacer(2),
+              Center(
+                  child: BlocConsumer<CreateAccountCubit, CreateAccountState>(
+                listener: (context, state) {
+                  if (state is CreateAccountFailed) {
+                    showSnackBar(context, state.errorMsg);
+                  }
+                  if (state is CreateAccountSucceed) {
+                    navPush(context, AppRouter.authBloodType, args: state.user);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is CreateAccountLoading) {
+                    return viewSpinner();
+                  }
+                  return buttonFilledP("Next", () => next());
+                },
+              )),
+              vSpacer(2),
             ],
           ),
         ),
